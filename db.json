@@ -1,0 +1,34 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Learn Quasar components",
+      "completed": true
+    },
+    {
+      "id": "faf7",
+      "title": "Learn Vue 3",
+      "completed": false
+    },
+    {
+      "id": "5d76",
+      "title": "Learn Pinia",
+      "completed": false
+    },
+    {
+      "id": "f4c0",
+      "title": "Learn Router in Vue",
+      "completed": false
+    },
+    {
+      "id": "9036",
+      "title": "Learn TypeScript",
+      "completed": false
+    },
+    {
+      "id": "f865",
+      "title": "Practice Vue 3",
+      "completed": false
+    }
+  ]
+}

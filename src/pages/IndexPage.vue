@@ -1,43 +1,41 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page padding>
+    <q-card v-if="tasksStore.loading" class="q-ma-md">
+      <q-card-section>
+        <q-spinner-dots size="40px" /> Loading tasks...
+      </q-card-section>
+    </q-card>
+    <q-card v-if="tasksStore.error" class="q-ma-md text-red">
+      <q-card-section>
+        {{ tasksStore.error }}
+      </q-card-section>
+    </q-card>
+    <q-list bordered separator>
+      <q-item v-for="task in tasksStore.tasks" :key="task.id" clickable v-ripple>
+        <q-item-section avatar>
+          <q-checkbox v-model="task.completed" @update:model-value="tasksStore.updateTask(task)" />
+        </q-item-section>
+        <q-item-section :class="{ 'text-strike text-grey-6': task.completed }">
+          {{ task.title }}
+        </q-item-section>
+        <q-item-section side>
+          <div class="q-gutter-sm">
+            <q-btn flat round icon="edit" color="primary" @click.stop="$router.push({ name: 'edit-task', params: { id: task.id } })" />
+            <q-btn flat round icon="delete" color="negative" @click.stop="tasksStore.deleteTask(task.id)" />
+          </div>
+        </q-item-section>
+      </q-item>
+    </q-list>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
+import { onMounted } from 'vue';
+import { useTasksStore } from 'stores/task';
 
-const todos = ref<Todo[]>([
-  {
-    id: 1,
-    content: 'ct1'
-  },
-  {
-    id: 2,
-    content: 'ct2'
-  },
-  {
-    id: 3,
-    content: 'ct3'
-  },
-  {
-    id: 4,
-    content: 'ct4'
-  },
-  {
-    id: 5,
-    content: 'ct5'
-  }
-]);
+const tasksStore = useTasksStore();
 
-const meta = ref<Meta>({
-  totalCount: 1200
+onMounted(async () => {
+  await tasksStore.fetchTasks();
 });
 </script>
