@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
-interface Task {
+export interface Task {
   id: number;
   title: string;
+  description: string;
+  fileUrl?: string; // Optional property
   completed: boolean;
+  createdAt: string; // ISO 8601 string
 }
 
 export const useTasksStore = defineStore('tasks', {
@@ -14,8 +17,17 @@ export const useTasksStore = defineStore('tasks', {
     error: null as string | null,
   }),
   getters: {
-    completedTasks: (state) => state.tasks.filter(task => task.completed),
-    pendingTasks: (state) => state.tasks.filter(task => !task.completed),
+    // Sorts tasks to show uncompleted ones first
+    sortedTasks: (state) => {
+      const sorted = [...state.tasks];
+      sorted.sort((a, b) => {
+        if (a.completed === b.completed) {
+          return 0;
+        }
+        return a.completed ? 1 : -1;
+      });
+      return sorted;
+    },
   },
   actions: {
     async fetchTasks() {
@@ -30,9 +42,13 @@ export const useTasksStore = defineStore('tasks', {
         this.loading = false;
       }
     },
-    async addTask(taskTitle: string) {
+    async addTask(task: Omit<Task, 'id' | 'completed' | 'createdAt'>) {
       try {
-        const newTask = { title: taskTitle, completed: false };
+        const newTask = {
+          ...task,
+          completed: false,
+          createdAt: new Date().toISOString()
+        };
         const response = await axios.post('http://localhost:3000/tasks', newTask);
         this.tasks.push(response.data);
       } catch (err) {
@@ -63,3 +79,4 @@ export const useTasksStore = defineStore('tasks', {
     },
   },
 });
+

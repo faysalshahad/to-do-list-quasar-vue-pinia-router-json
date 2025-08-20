@@ -3,32 +3,98 @@
     {
       "id": "1",
       "title": "Learn Quasar components",
-      "completed": true
+      "description": "Explore layouts, forms, and dialogs.",
+      "fileUrl": "https://quasar.dev/",
+      "completed": false,
+      "createdAt": "2025-08-15T10:00:00.000Z"
     },
     {
-      "id": "faf7",
-      "title": "Learn Vue 3",
-      "completed": false
+      "id": "2",
+      "title": "Build a CRUD app",
+      "description": "Implement all C.R.U.D. operations with Pinia.",
+      "fileUrl": "https://pinia.vuejs.org/",
+      "completed": true,
+      "createdAt": "2025-08-15T11:00:00.000Z"
     },
     {
-      "id": "5d76",
-      "title": "Learn Pinia",
-      "completed": false
+      "id": "3",
+      "title": "Integrate Vue Router",
+      "description": "Set up routing for the application.",
+      "fileUrl": "https://router.vuejs.org/",
+      "completed": false,
+      "createdAt": "2025-08-15T12:00:00.000Z"
     },
     {
-      "id": "f4c0",
-      "title": "Learn Router in Vue",
-      "completed": false
+      "id": "4",
+      "title": "Learn PostgreSQL",
+      "description": "Learn in depth about the PostgreSQL database system.",
+      "fileUrl": "https://www.postgresql.org/docs/current/tutorial.html",
+      "completed": false,
+      "createdAt": "2025-08-15T13:00:00.000Z"
     },
     {
-      "id": "9036",
-      "title": "Learn TypeScript",
-      "completed": false
+      "id": "5",
+      "title": "Learn MongoDB",
+      "description": "Learn thoroughly about the MongoDB no-SQL database system.",
+      "fileUrl": "https://www.mongodb.com/docs/",
+      "completed": false,
+      "createdAt": "2025-08-15T14:00:00.000Z"
     },
     {
-      "id": "f865",
-      "title": "Practice Vue 3",
-      "completed": false
+      "id": "6",
+      "title": "REACT",
+      "description": "Learn the basics of React.",
+      "fileUrl": "https://reactjs.org/",
+      "completed": false,
+      "createdAt": "2025-08-19T03:04:17.784Z"
+    },
+    {
+      "id": "7",
+      "title": "Vue 3 Composition API",
+      "description": "Learn about the Composition API in Vue 3.",
+      "fileUrl": "https://vuejs.org/guide/extras/composition-api.html",
+      "completed": false,
+      "createdAt": "2025-08-19T03:04:17.784Z"
+    },
+    {
+      "id": "8",
+      "title": "Learn Angular",
+      "description": "Learn about the basics of Angular.",
+      "fileUrl": "https://angular.io/guide/architecture",
+      "completed": false,
+      "createdAt": "2025-08-19T03:04:17.784Z"
+    },
+    {
+      "id": "9",
+      "title": "Learn JavaScript",
+      "description": "Learn about the basics of JavaScript.",
+      "fileUrl": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+      "completed": false,
+      "createdAt": "2025-08-19T03:04:17.784Z"
+    },
+    {
+      "id": "10",
+      "title": "Learn NodeJs",
+      "description": "Learn comprehensively about the NodeJs",
+      "fileUrl": "https://nodejs.org/docs/latest/api/",
+      "completed": false,
+      "createdAt": "2025-08-19T03:04:17.784Z"
+    },
+    {
+      "id": "38d5",
+      "title": "Learn Java",
+      "description": "Learn extensively about Java",
+      "fileUrl": "https://www.w3schools.com/java/java_ref_reference.asp",
+      "completed": false,
+      "createdAt": "2025-08-19T03:22:16.300Z"
+    },
+    {
+      "id": "0e05",
+      "title": "Learn Spring Boot",
+      "description": "Learn in details about the Spring Boot",
+      "fileUrl": "https://docs.spring.io/spring-boot/index.html",
+      "completed": false,
+      "createdAt": "2025-08-19T03:27:10.464Z"
     }
   ]
 }

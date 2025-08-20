@@ -1,66 +1,91 @@
 <template>
-  <q-page padding>
-    <q-card class="q-pa-md">
-      <q-card-section>
-        <div class="text-h6">{{ isEdit ? 'Edit Task' : 'Add New Task' }}</div>
-      </q-card-section>
-      <q-card-section>
-        <q-input
-          v-model="taskTitle"
-          label="Task Title"
-          dense
-          outlined
-          @keyup.enter="handleSubmit"
-        />
-      </q-card-section>
-      <q-card-actions align="right">
-        <q-btn flat label="Cancel" color="negative" @click="$router.back()" />
-        <q-btn unelevated :label="isEdit ? 'Save' : 'Add Task'" color="primary" @click="handleSubmit" />
-      </q-card-actions>
-    </q-card>
-  </q-page>
+  <q-card style="min-width: 400px">
+    <q-card-section>
+      <div class="text-h6">{{ initialTask ? 'Edit Task' : 'Add New Task' }}</div>
+    </q-card-section>
+    <q-card-section class="q-pt-none">
+      <q-input
+        v-model="form.title"
+        label="Task Title"
+        dense
+        outlined
+        class="q-mb-md"
+      />
+      <q-input
+        v-model="form.description"
+        label="Description"
+        type="textarea"
+        dense
+        outlined
+        class="q-mb-md"
+      />
+      <q-input
+        v-model="form.fileUrl"
+        label="Attached File URL (Optional)"
+        dense
+        outlined
+        class="q-mb-md"
+      />
+    </q-card-section>
+    <q-card-actions align="right">
+      <q-btn flat label="Cancel" color="negative" @click="handleCancel" />
+      <q-btn unelevated :label="initialTask ? 'Save' : 'Add Task'" color="primary" @click="handleSubmit" />
+    </q-card-actions>
+  </q-card>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useTasksStore } from 'stores/task';
+import { ref, watch, defineProps } from 'vue';
+import { useTasksStore } from 'src/stores/tasks';
+import type { Task } from '../stores/tasks';
+import { useRouter } from 'vue-router';
 
-const route = useRoute();
-const router = useRouter();
+const props = defineProps<{
+  initialTask?: Task | null;
+}>();
+
+//const emit = defineEmits(['close']);
 const tasksStore = useTasksStore();
 
-const taskTitle = ref('');
-const taskId = ref<number | null>(null);
+const router = useRouter();
 
-const isEdit = computed(() => !!route.params.id);
-
-onMounted(() => {
-  if (isEdit.value) {
-    taskId.value = Number(route.params.id);
-    const taskToEdit = tasksStore.tasks.find(t => t.id === taskId.value);
-    if (taskToEdit) {
-      taskTitle.value = taskToEdit.title;
-    }
-  }
+const form = ref({
+  title: '',
+  description: '',
+  fileUrl: '',
 });
 
-async function handleSubmit() {
-  try {
-    if (isEdit.value && taskId.value !== null) {
-      await tasksStore.updateTask({
-        id: taskId.value,
-        title: taskTitle.value,
-        completed: tasksStore.tasks.find(t => t.id === taskId.value)?.completed || false,
-      });
-    } else {
-      await tasksStore.addTask(taskTitle.value);
-    }
-    // Only navigate after the async operation succeeds
-    await router.push({ name: 'task-list' });
-  } catch (error) {
-    // Handle the error here, e.g., show a toast notification
-    console.error('Failed to submit form:', error);
+watch(() => props.initialTask, (newVal) => {
+  if (newVal) {
+    form.value.title = newVal.title;
+    form.value.description = newVal.description;
+    form.value.fileUrl = newVal.fileUrl || '';
+  } else {
+    // Reset form for "Add"
+    form.value.title = '';
+    form.value.description = '';
+    form.value.fileUrl = '';
   }
+}, { immediate: true });
+
+async function handleSubmit() {
+  if (props.initialTask) {
+    // Edit existing task
+    const updatedTask = {
+      ...props.initialTask,
+      title: form.value.title,
+      description: form.value.description,
+      fileUrl: form.value.fileUrl,
+    };
+    await tasksStore.updateTask(updatedTask);
+  } else {
+    // Add new task
+    await tasksStore.addTask(form.value);
+  }
+  await router.push('/');
+}
+
+async function handleCancel () {
+  await router.push('/');
 }
 </script>
