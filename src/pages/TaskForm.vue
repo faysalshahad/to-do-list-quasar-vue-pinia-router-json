@@ -28,26 +28,26 @@
       />
     </q-card-section>
     <q-card-actions align="right">
-      <q-btn flat label="Cancel" color="negative" @click="handleCancel" />
+      <q-btn flat label="Cancel" color="negative" @click="$emit('close')" />
       <q-btn unelevated :label="initialTask ? 'Save' : 'Add Task'" color="primary" @click="handleSubmit" />
     </q-card-actions>
   </q-card>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps } from 'vue';
-import { useTasksStore } from 'src/stores/tasks';
+// ADD THIS LINE
 import type { Task } from '../stores/tasks';
-import { useRouter } from 'vue-router';
+// ----------------
+
+import { ref, watch, defineEmits, defineProps } from 'vue';
+import { useTasksStore } from 'stores/tasks';
 
 const props = defineProps<{
   initialTask?: Task | null;
 }>();
 
-//const emit = defineEmits(['close']);
+const emit = defineEmits(['close']);
 const tasksStore = useTasksStore();
-
-const router = useRouter();
 
 const form = ref({
   title: '',
@@ -82,10 +82,6 @@ async function handleSubmit() {
     // Add new task
     await tasksStore.addTask(form.value);
   }
-  await router.push('/');
-}
-
-async function handleCancel () {
-  await router.push('/');
+  emit('close');
 }
 </script>
